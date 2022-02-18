@@ -14,7 +14,7 @@ const Footer = () => {
       <div className=" flex justify-between items-center w-full px-10 pb-3 border-gray-300 border-b-2 space-x-2">
         <p>Get connected with us on social networks:</p>
         <div className=" flex space-x-4">
-          <FontAwesomeIcon icon={faGithub} className="h-8" />
+          <FontAwesomeIcon icon={["fas", "github"]} className="h-8" />
           <FontAwesomeIcon icon={faFacebook} className="h-8" />
           <FontAwesomeIcon icon={faInstagram} className="h-8" />
           <FontAwesomeIcon icon={faLinkedin} className="h-8" />
