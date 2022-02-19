@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 .link_line {
-  @apply after:bottom-0 after:left-0 after:right-0 after:m-auto after:bg-white after:text-transparent after:w-0 after:content-['.'] after:h-1 after:absolute  hover:after:w-2/3 hover:after:transition-all after:ease-in-out hover:after:duration-500;
+  @apply after:bottom-0 after:left-0 after:right-0 after:m-auto after:bg-white after:text-transparent after:w-0 after:content-['.'] after:h-1 after:absolute  hover:after:w-2/4 hover:after:transition-all after:ease-in-out hover:after:duration-500 hover:after:mb-1 hover:after:rounded-md;
 }
 
 #slideset2 {
