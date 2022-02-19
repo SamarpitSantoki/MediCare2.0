@@ -1,5 +1,6 @@
 import HomeIcon from "@heroicons/react/outline/HomeIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faFacebook,
   faGithub,
@@ -14,11 +15,11 @@ const Footer = () => {
       <div className=" flex justify-between items-center w-full px-10 pb-3 border-gray-300 border-b-2 space-x-2">
         <p>Get connected with us on social networks:</p>
         <div className=" flex space-x-4">
-          <FontAwesomeIcon icon={faGithub} className="h-8" />
-          <FontAwesomeIcon icon={faFacebook} className="h-8" />
-          <FontAwesomeIcon icon={faInstagram} className="h-8" />
-          <FontAwesomeIcon icon={faLinkedin} className="h-8" />
-          <FontAwesomeIcon icon={faTwitter} className="h-8" />
+          <FontAwesomeIcon icon={faGithub as IconProp} className="h-8" />
+          <FontAwesomeIcon icon={faFacebook as IconProp} className="h-8" />
+          <FontAwesomeIcon icon={faInstagram as IconProp} className="h-8" />
+          <FontAwesomeIcon icon={faLinkedin as IconProp} className="h-8" />
+          <FontAwesomeIcon icon={faTwitter as IconProp} className="h-8" />
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4  sm:w-4/5 pt-10 sm:max-w-5xl space-x-10 mt-10 ">
