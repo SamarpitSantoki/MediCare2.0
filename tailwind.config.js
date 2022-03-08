@@ -7,6 +7,10 @@ module.exports = {
     extend: {
       colors: {
         medi: "#10847e",
+        medi: {
+          100: "#10847e",
+          200: "#149f98",
+        },
       },
     },
   },

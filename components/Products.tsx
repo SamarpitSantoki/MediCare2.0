@@ -23,7 +23,7 @@ const Products = ({ prods, addToCart }) => {
             <h2 className="font-semibold mb-4 mt-3">₹{prod.price}</h2>
             <button
               onClick={addToCart}
-              value={prod}
+              id={prod.slug}
               className="p-2 px-6 bg-blue-500 text-white rounded-md hover:bg-red-600"
             >
               Add To Cart
