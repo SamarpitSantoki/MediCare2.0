@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
 const login = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  //function to handle register
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("/api/auth/register", { name, email, password })
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        let message =
+          typeof err.response !== "undefined"
+            ? err.response.data.message
+            : err.message;
+        console.warn("error", message);
+      });
+  };
   return (
     <div className="lg:flex">
       <div className="hidden lg:flex items-center justify-center bg-[#e8fcfb] flex-1 h-screen ">
@@ -168,14 +188,14 @@ const login = () => {
         <div className="py-12 bg-[#e8fcfb] lg:bg-white flex justify-center lg:justify-start lg:px-12">
           <div className="cursor-pointer flex items-center">
             <Link href="/">
-              <div className="text-2xl text-medi-200 tracking-wide ml-2 font-semibold">
+              <div className="text-2xl text-medi-200 tracking-wide ml-2 font-semibold inline-flex items-center">
                 <Image
                   height="44px"
                   width="44px"
                   src="/images/logo_medi.png"
                   className="h-11 color-black filter"
                 />
-                MediCare
+                <p className="ml-2">MediCare</p>
               </div>
             </Link>
           </div>
@@ -188,7 +208,7 @@ const login = () => {
             Register
           </h2>
           <div className="mt-12">
-            <form>
+            <form onSubmit={(e) => e.preventDefault}>
               <div>
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
                   Name
@@ -198,6 +218,8 @@ const login = () => {
                   placeholder="Samar"
                   name="name"
                   type="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="mt-8">
@@ -209,6 +231,8 @@ const login = () => {
                   placeholder="sgp@gmail.com"
                   type="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mt-8">
@@ -222,18 +246,21 @@ const login = () => {
                   placeholder="Enter your password"
                   type="password"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div className="mt-10">
-                <button
-                  className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
+            </form>
+            <div className="mt-10">
+              <button
+                className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-medi-200
                                 shadow-lg"
-                >
-                  Register
-                </button>
-              </div>
-            </form>
+                onClick={handleSubmit}
+              >
+                Register
+              </button>
+            </div>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Already have an account ?{" "}
               <a className="cursor-pointer text-medi-100 hover:text-medi-200">
