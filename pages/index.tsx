@@ -17,10 +17,27 @@ export default function Home({ prods, cats }) {
 
   function addToCart(product) {
     let prods = cart;
-    let prod = event?.target;
-    prods = [...cart, product];
-    setCart(prods);
-    console.log(prod);
+    let prod = (event.target as Element).id;
+    if (prods.length > 0) {
+      if (prods.find((e) => e.slug == prod)) {
+        prods.map((e) => {
+          if (e.slug === prod) e.quntity++;
+        });
+      } else {
+        prods.push({
+          slug: prod,
+          quntity: 1,
+        });
+      }
+    } else {
+      prods.push({
+        slug: prod,
+        quntity: 1,
+      });
+    }
+    product = [...prods];
+    setCart(product);
+    console.log(product);
   }
   return (
     <>

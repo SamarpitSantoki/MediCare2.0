@@ -10,7 +10,7 @@ const Nav2 = ({ filter, cats }) => {
 
   return (
     <>
-      <div className="bg-medi sm:sticky bottom-0 right-0 left-0  md:px-6 h-15 flex  items-center text-lg text-white text-center z-10">
+      <div className="bg-medi-100 sm:sticky bottom-0 right-0 left-0  md:px-6 h-15 flex  items-center text-lg text-white text-center z-10">
         {cats.map((cat) => {
           return (
             <h3
@@ -24,9 +24,9 @@ const Nav2 = ({ filter, cats }) => {
           );
         })}
       </div>
-      <div className="fixed w-10 right-10 bottom-20 ring-2 ring-medi rounded-full z-10">
+      <div className="fixed w-10 right-10 bottom-20 ring-2 ring-medi-100 rounded-full z-10">
         <a href="#">
-          <Arrow className="text-medi" />
+          <Arrow className="text-medi-100" />
         </a>
       </div>
     </>
