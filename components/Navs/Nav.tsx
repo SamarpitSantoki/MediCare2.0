@@ -26,7 +26,11 @@ const Nav = ({ cart }) => {
     <div className="flex flex-col m-0 w-full sticky top-0 z-50">
       <div className="bg-medi-100 z-50 w-full px-6 h-20 flex justify-between items-center">
         <div className="w-3/4 space-x-4 inline-flex justify-start items-center">
-          <img className="h-12" src="./images/logo.jpg" alt="" />
+          <Link href="/">
+            <a>
+              <img className="h-12" src="./images/logo.jpg" alt="" />
+            </a>
+          </Link>
           <div className="sm:flex sm:w-full hidden ">
             <input
               className="w-5/6 rounded-sm focus:outline focus:outline-2 focus:outline-offset-0 py-1 px-2 focus:outline-blue-500 placeholder:italic "

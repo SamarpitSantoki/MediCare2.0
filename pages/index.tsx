@@ -15,6 +15,7 @@ export default function Home({ prods, cats }) {
   const [products, setProds] = useState(prods);
   const [cart, setCart] = useState([]);
 
+  //function to add product to cart
   function addToCart(product) {
     let prods = cart;
     let prod = (event.target as Element).id;
@@ -39,6 +40,7 @@ export default function Home({ prods, cats }) {
     setCart(product);
     console.log(product);
   }
+
   return (
     <>
       <Head>

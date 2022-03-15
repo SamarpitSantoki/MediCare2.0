@@ -98,9 +98,11 @@ const login = () => {
             </div>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Don&apos;t have an account ?
-              <a className="cursor-pointer text-medi-100 hover:text-medi-200">
-                Sign up
-              </a>
+              <Link href="/register">
+                <a className="cursor-pointer text-medi-100 hover:text-medi-200">
+                  Sign up
+                </a>
+              </Link>
             </div>
           </div>
         </div>
