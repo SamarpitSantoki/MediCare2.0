@@ -2,10 +2,40 @@ import Cart from "@heroicons/react/outline/ShoppingCartIcon";
 import Menu from "@heroicons/react/outline/MenuIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import Link from "next/link";
-import { useState } from "react";
+import productContext from "../../contexts/Products/productContext";
+import { useContext } from "react";
+import axios from "axios";
 
-const Nav = ({ cart, handleSearch, handleSearchSubmit }) => {
+const Nav = ({ cart }) => {
   // function for toggling dropdown menu
+  const { searchValue, setSearchValue, setFilteredProducts, products } =
+    useContext(productContext);
+
+  async function handleSearchSubmit(event) {
+    event.preventDefault();
+    let search = searchValue.toString().replace(/\s+/g, "-").toLowerCase();
+    const res = await axios.get(`/api/products/search?search=${search}`);
+    setFilteredProducts(res.data);
+  }
+
+  async function handleSearch(event) {
+    let search = event.target.value
+      .toString()
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    if (search) {
+      const prods = products.filter((prod) => {
+        if (prod.slug.includes(search)) {
+          return prod;
+        }
+      });
+      setFilteredProducts(prods);
+      setSearchValue(search);
+    } else {
+      setFilteredProducts(products);
+    }
+  }
+
   function dropdownClick() {
     let state = document.getElementById("dropdown").className;
     let btn = document.getElementById("toggler");

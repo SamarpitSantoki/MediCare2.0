@@ -38,7 +38,7 @@ const Index = () => {
   return (
     <>
       <div className="h-screen bg-slate-100 mx-auto">
-        <Nav cart={cart} handleSearch />
+        <Nav cart={cart} />
         <div className="flex items-center justify-center h-4/5 w-4/5 mx-auto">
           <div className="flex w-full">
             <section className="navigation flex flex-col py-3 px-5 space-y-5 group-hover:cursor-pointer bg-gray-100 relative">

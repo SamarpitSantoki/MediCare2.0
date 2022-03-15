@@ -1,21 +1,23 @@
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer/Footer";
 import Nav from "../components/Navs/Nav";
 import Nav2 from "../components/Navs/Nav2";
 import Products from "../components/Products";
+import productContext from "../contexts/Products/productContext";
 import dbConnect from "../lib/dbConnect";
 import Category from "../models/categorySchema";
 import Product from "../models/productSchema";
 
 export default function Home({ prods, cats }) {
-  const [products, setProds] = useState(prods);
-  const [filteredProducts, setFilteredProducts] = useState(prods);
   const [cart, setCart] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const { products, filteredProducts, setFilteredProducts, setProducts } =
+    useContext(productContext);
+  setProducts(prods);
+  setFilteredProducts(prods);
 
   useEffect(() => {
     setFilteredProducts(products);
@@ -48,30 +50,6 @@ export default function Home({ prods, cats }) {
   }
 
   //function to search products
-  async function handleSearchSubmit(event) {
-    event.preventDefault();
-    let search = searchValue.toString().replace(/\s+/g, "-").toLowerCase();
-    const res = await axios.get(`/api/products/search?search=${search}`);
-    setFilteredProducts(res.data);
-  }
-
-  async function handleSearch(event) {
-    let search = event.target.value
-      .toString()
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-    if (search) {
-      const prods = products.filter((prod) => {
-        if (prod.slug.includes(search)) {
-          return prod;
-        }
-      });
-      setFilteredProducts(prods);
-      setSearchValue(search);
-    } else {
-      setFilteredProducts(products);
-    }
-  }
 
   return (
     <>
@@ -80,13 +58,9 @@ export default function Home({ prods, cats }) {
         <link rel="icon" href="/images/logo copy.png" />
       </Head>
       <div className="w-fit lg:w-full inline-flex flex-col">
-        <Nav
-          cart={cart}
-          handleSearch={handleSearch}
-          handleSearchSubmit={handleSearchSubmit}
-        />
+        <Nav cart={cart} />
         <div className="m-0 w-full">
-          <Nav2 filter={setProds} cats={cats} />
+          <Nav2 filter={setProducts} cats={cats} />
         </div>
         <div>
           <Carousel />
