@@ -2,11 +2,9 @@ import Cart from "@heroicons/react/outline/ShoppingCartIcon";
 import Menu from "@heroicons/react/outline/MenuIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import Link from "next/link";
-import Product from "../../models/productSchema";
-import dbConnect from "../../lib/dbConnect";
-import axios from "axios";
-const Nav = ({ cart, handleSearch }) => {
-  // const [searchVal, setsearchVal] = useState(null);
+import { useState } from "react";
+
+const Nav = ({ cart, handleSearch, handleSearchSubmit }) => {
   // function for toggling dropdown menu
   function dropdownClick() {
     let state = document.getElementById("dropdown").className;
@@ -31,19 +29,28 @@ const Nav = ({ cart, handleSearch }) => {
               <img className="h-12" src="./images/logo.jpg" alt="" />
             </a>
           </Link>
-          <div className="sm:flex sm:w-full hidden ">
+          <form
+            className="sm:flex sm:w-full hidden"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearchSubmit(e);
+            }}
+          >
             <input
               className="w-5/6 rounded-sm focus:outline focus:outline-2 focus:outline-offset-0 py-1 px-2 focus:outline-blue-500 placeholder:italic "
               type="search"
-              name="find_prod"
+              name="search"
               id="prod_search"
               placeholder="Search"
               onChange={handleSearch}
             />
-            <button className="flex items-center uppercase font-light text-sm h-8 text-green-300 justify-center mx-2 px-5 py-2 outline outline-2 rounded outline-green-500">
+            <button
+              type="submit"
+              className="flex items-center uppercase font-light text-sm h-8 text-green-300 justify-center mx-2 px-5 py-2 outline outline-2 rounded outline-green-500"
+            >
               Search
             </button>
-          </div>
+          </form>
         </div>
         <div className="flex space-x-3 text-white text-[1.05rem] items-center">
           <a className="inline-flex relative group" href="/cart">
@@ -82,18 +89,28 @@ const Nav = ({ cart, handleSearch }) => {
         </div>
       </div>
       <div id="dropdown" className="hidden sm:hidden">
-        <div className="flex bg-medi-100 w-full p-3 mx-auto">
+        <form
+          className="flex bg-medi-100 w-full p-3 mx-auto"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearchSubmit(e);
+          }}
+        >
           <input
             className="w-5/6 rounded-sm focus:outline focus:outline-2 focus:outline-offset-0 py-1 px-2 focus:outline-blue-500 placeholder:italic "
             type="search"
-            name="find_prod"
+            name="search"
             id="prod_search"
             placeholder="Search"
+            onChange={handleSearch}
           />
-          <button className="flex items-center uppercase font-light text-sm h-8 text-green-300 justify-center mx-2 px-5 py-2 outline outline-2 rounded outline-green-500">
+          <button
+            type="submit"
+            className="flex items-center uppercase font-light text-sm h-8 text-green-300 justify-center mx-2 px-5 py-2 outline outline-2 rounded outline-green-500"
+          >
             Search
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

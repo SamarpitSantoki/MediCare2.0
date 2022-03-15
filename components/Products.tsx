@@ -31,6 +31,9 @@ const Products = ({ prods, addToCart }) => {
           </div>
         );
       })}
+      {!prods.length && (
+        <div className="text-gray-400 text-2xl">No Products</div>
+      )}
     </>
   );
 };

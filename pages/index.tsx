@@ -1,7 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer/Footer";
 import Nav from "../components/Navs/Nav";
@@ -13,7 +13,13 @@ import Product from "../models/productSchema";
 
 export default function Home({ prods, cats }) {
   const [products, setProds] = useState(prods);
+  const [filteredProducts, setFilteredProducts] = useState(prods);
   const [cart, setCart] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
 
   //function to add product to cart
   function addToCart(product) {
@@ -42,15 +48,31 @@ export default function Home({ prods, cats }) {
   }
 
   //function to search products
+  async function handleSearchSubmit(event) {
+    event.preventDefault();
+    let search = searchValue.toString().replace(/\s+/g, "-").toLowerCase();
+    const res = await axios.get(`/api/products/search?search=${search}`);
+    setFilteredProducts(res.data);
+  }
+
   async function handleSearch(event) {
     let search = event.target.value
       .toString()
       .replace(/\s+/g, "-")
       .toLowerCase();
-    const res = await axios.get(`/api/products/search?search=${search}`);
-    setProds(res.data);
-    console.log(res.data);
+    if (search) {
+      const prods = products.filter((prod) => {
+        if (prod.slug.includes(search)) {
+          return prod;
+        }
+      });
+      setFilteredProducts(prods);
+      setSearchValue(search);
+    } else {
+      setFilteredProducts(products);
+    }
   }
+
   return (
     <>
       <Head>
@@ -58,7 +80,11 @@ export default function Home({ prods, cats }) {
         <link rel="icon" href="/images/logo copy.png" />
       </Head>
       <div className="w-fit lg:w-full inline-flex flex-col">
-        <Nav cart={cart} handleSearch={handleSearch} />
+        <Nav
+          cart={cart}
+          handleSearch={handleSearch}
+          handleSearchSubmit={handleSearchSubmit}
+        />
         <div className="m-0 w-full">
           <Nav2 filter={setProds} cats={cats} />
         </div>
@@ -75,7 +101,7 @@ export default function Home({ prods, cats }) {
         {/* display prods Here  */}
         <div className="container mx-auto py-5 md:py-20 max-w-8xl min-w-[484px]">
           <div className="p-5 xl:p-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 items-start transition-all duration-500">
-            <Products prods={products} addToCart={addToCart} />
+            <Products prods={filteredProducts} addToCart={addToCart} />
           </div>
         </div>
 
@@ -86,10 +112,10 @@ export default function Home({ prods, cats }) {
 }
 
 export async function getServerSideProps() {
+  //connect to database
   await dbConnect();
-
-  const products = await Product.find({}).limit(20);
-
+  //get initial products
+  const products = await Product.find({}).limit(30);
   const prods = products.map((doc) => {
     const prod = doc.toObject();
     prod._id = prod._id.toString();
@@ -97,6 +123,7 @@ export async function getServerSideProps() {
     return prod;
   });
 
+  //get all categories
   const category = await Category.find({});
   const cats = category.map((doc) => {
     const cat = doc.toObject();

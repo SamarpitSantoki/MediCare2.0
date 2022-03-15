@@ -8,6 +8,7 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -15,11 +16,26 @@ const Footer = () => {
       <div className=" flex justify-between items-center w-full px-10 pb-3 border-gray-300 border-b-2 space-x-2">
         <p>Get connected with us on social networks:</p>
         <div className=" flex space-x-4">
-          <FontAwesomeIcon icon={faGithub as IconProp} className="h-8" />
-          <FontAwesomeIcon icon={faFacebook as IconProp} className="h-8" />
-          <FontAwesomeIcon icon={faInstagram as IconProp} className="h-8" />
-          <FontAwesomeIcon icon={faLinkedin as IconProp} className="h-8" />
-          <FontAwesomeIcon icon={faTwitter as IconProp} className="h-8" />
+          <Link href="https://github.com/samarpitsantoki">
+            <a target="_blank">
+              <FontAwesomeIcon icon={faGithub as IconProp} className="h-8" />
+            </a>
+          </Link>
+          <Link href="https://www.linkedin.com/in/samarpit-santoki-9715441b8/">
+            <a target="_blank">
+              <FontAwesomeIcon icon={faLinkedin as IconProp} className="h-8" />
+            </a>
+          </Link>
+          <Link href="https://www.instagram.com/Samarpit_santoki">
+            <a target="_blank">
+              <FontAwesomeIcon icon={faInstagram as IconProp} className="h-8" />
+            </a>
+          </Link>
+          <Link href="https://www.twitter.com/SamarpitSantoki">
+            <a target="_blank">
+              <FontAwesomeIcon icon={faTwitter as IconProp} className="h-8" />
+            </a>
+          </Link>
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4  sm:w-4/5 pt-10 sm:max-w-5xl space-x-10 mt-10 ">

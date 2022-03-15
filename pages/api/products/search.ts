@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const serchVal = req.query.search.toString();
   const result = await Product.find({
     slug: { $regex: serchVal, $options: "i" },
-  }).limit(10);
+  });
   const prods = result.map((doc) => {
     const prod = doc.toObject();
     prod._id = prod._id.toString();

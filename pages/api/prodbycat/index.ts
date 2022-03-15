@@ -4,7 +4,7 @@ import Product from "../../../models/productSchema";
 export default async function handler(req, res) {
   await dbConnect();
   const cate = req.query.cat.toString();
-  const result = await Product.find({ category: cate }).limit(20);
+  const result = await Product.find({ category: cate });
   const prods = result.map((doc) => {
     const prod = doc.toObject();
     prod._id = prod._id.toString();
