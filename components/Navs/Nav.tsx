@@ -2,7 +2,10 @@ import Cart from "@heroicons/react/outline/ShoppingCartIcon";
 import Menu from "@heroicons/react/outline/MenuIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import Link from "next/link";
-const Nav = ({ cart }) => {
+import Product from "../../models/productSchema";
+import dbConnect from "../../lib/dbConnect";
+import axios from "axios";
+const Nav = ({ cart, handleSearch }) => {
   // const [searchVal, setsearchVal] = useState(null);
   // function for toggling dropdown menu
   function dropdownClick() {
@@ -19,9 +22,6 @@ const Nav = ({ cart }) => {
     }
   }
 
-  function searchProd(event) {
-    console.log(event);
-  }
   return (
     <div className="flex flex-col m-0 w-full sticky top-0 z-50">
       <div className="bg-medi-100 z-50 w-full px-6 h-20 flex justify-between items-center">
@@ -38,7 +38,7 @@ const Nav = ({ cart }) => {
               name="find_prod"
               id="prod_search"
               placeholder="Search"
-              onChange={searchProd}
+              onChange={handleSearch}
             />
             <button className="flex items-center uppercase font-light text-sm h-8 text-green-300 justify-center mx-2 px-5 py-2 outline outline-2 rounded outline-green-500">
               Search
@@ -62,7 +62,7 @@ const Nav = ({ cart }) => {
             
             */}
           </a>
-          <a className="inline-flex" href="#">
+          <div className="inline-flex">
             <UserIcon className="w-6" />
             <Link href="/login">
               <a>Login</a>
@@ -71,7 +71,7 @@ const Nav = ({ cart }) => {
             <Link href="/register">
               <a>SignUp</a>
             </Link>
-          </a>
+          </div>
           <button
             onClick={dropdownClick}
             id="toggler"

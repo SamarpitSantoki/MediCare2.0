@@ -1,3 +1,4 @@
+import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
@@ -41,6 +42,16 @@ export default function Home({ prods, cats }) {
     console.log(product);
   }
 
+  //function to search products
+  async function handleSearch(event) {
+    let search = event.target.value
+      .toString()
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    const res = await axios.get(`/api/products/search?search=${search}`);
+    setProds(res.data);
+    console.log(res.data);
+  }
   return (
     <>
       <Head>
@@ -48,7 +59,7 @@ export default function Home({ prods, cats }) {
         <link rel="icon" href="/images/logo copy.png" />
       </Head>
       <div className="w-fit lg:w-full inline-flex flex-col">
-        <Nav cart={cart} />
+        <Nav cart={cart} handleSearch={handleSearch} />
         <div className="m-0 w-full">
           <Nav2 filter={setProds} cats={cats} />
         </div>
