@@ -37,7 +37,7 @@ const profilebox = () => {
   return (
     <main className="w-screen h-screen bg-gray-100 flex flex-col min-w-min">
       <div className="w-screen">
-        <Nav cart />
+        <Nav cart handleSearch />
       </div>
       <div className=" w-11/12 mx-auto my-16 min-w-min ">
         <div className="h-10">Home / profile</div>
