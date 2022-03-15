@@ -8,7 +8,8 @@ import {
 } from "../../components/UserProfile/";
 import Nav from "../../components/Navs/Nav";
 const cart = [1];
-const index = () => {
+
+const Index = () => {
   const [field, setField] = useState();
 
   //render components acording to the selected field
@@ -94,4 +95,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
