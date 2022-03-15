@@ -1,7 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
-import React from "react";
 import { useState } from "react";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer/Footer";
