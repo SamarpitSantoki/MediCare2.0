@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import axios from "axios";
+import UserContext from "../contexts/User/userContext";
+
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { setUser } = useContext(UserContext);
   //function to handle the login
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
       .post("/api/auth/login", { email, password })
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         console.log(data);
+        await setUser(data.user);
+        router.push("/");
       })
       .catch((err) => {
         let message =

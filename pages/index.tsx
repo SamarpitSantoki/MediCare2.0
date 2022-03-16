@@ -16,11 +16,14 @@ export default function Home({ prods, cats }) {
   const [cart, setCart] = useState([]);
   const { products, filteredProducts, setFilteredProducts, setProducts } =
     useContext(productContext);
-  setProducts(prods);
-  setFilteredProducts(prods);
+  useEffect(() => {
+    setProducts(prods);
+    setFilteredProducts(prods);
+  }, []);
 
   useEffect(() => {
     setFilteredProducts(products);
+    console.log("state updated");
   }, [products]);
 
   //function to add product to cart

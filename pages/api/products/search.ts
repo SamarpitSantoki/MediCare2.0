@@ -2,8 +2,8 @@ import Product from "../../../models/productSchema";
 import dbConnect from "../../../lib/dbConnect";
 
 export default async function handler(req, res) {
-  dbConnect();
-  const serchVal = req.query.search.toString();
+  await dbConnect();
+  const serchVal = await req.query.search.toString();
   const result = await Product.find({
     slug: { $regex: serchVal, $options: "i" },
   });

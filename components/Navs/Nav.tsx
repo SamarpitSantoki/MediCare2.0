@@ -5,12 +5,13 @@ import Link from "next/link";
 import productContext from "../../contexts/Products/productContext";
 import { useContext } from "react";
 import axios from "axios";
+import userContext from "../../contexts/User/userContext";
 
 const Nav = ({ cart }) => {
   // function for toggling dropdown menu
   const { searchValue, setSearchValue, setFilteredProducts, products } =
     useContext(productContext);
-
+  const { user } = useContext(userContext);
   async function handleSearchSubmit(event) {
     event.preventDefault();
     let search = searchValue.toString().replace(/\s+/g, "-").toLowerCase();
@@ -101,13 +102,19 @@ const Nav = ({ cart }) => {
           </a>
           <div className="inline-flex">
             <UserIcon className="w-6" />
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-            /
-            <Link href="/register">
-              <a>SignUp</a>
-            </Link>
+            {user == null ? (
+              <>
+                <Link href="/login">
+                  <a>Login</a>
+                </Link>
+                /
+                <Link href="/register">
+                  <a>SignUp</a>
+                </Link>
+              </>
+            ) : (
+              <span> {user.name}</span>
+            )}
           </div>
           <button
             onClick={dropdownClick}
