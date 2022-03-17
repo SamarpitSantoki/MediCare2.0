@@ -16,8 +16,8 @@ const Login = () => {
     await axios
       .post("/api/auth/login", { email, password })
       .then(async ({ data }) => {
-        console.log(data);
         await setUser(data.user);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
         router.push("/");
       })
       .catch((err) => {
@@ -34,9 +34,10 @@ const Login = () => {
       <div className="lg:w-1/2 xl:max-w-screen-sm">
         <div className="py-12 bg-[#e8fcfb] lg:bg-white  flex justify-center lg:justify-start lg:px-12">
           <div className="cursor-pointer flex items-center">
-            <Link href="/">
+            <Link href="/" passHref>
               <div className="text-2xl text-medi-200 tracking-wide ml-2 font-semibold inline-flex items-center">
                 <Image
+                  alt="logo"
                   height="44px"
                   width="44px"
                   src="/images/logo_medi.png"
@@ -86,22 +87,20 @@ const Login = () => {
                   type="password"
                   name="password"
                   value={password}
-                  onChange={(e) => (
-                    e.preventDefault(), setPassword(e.target.value)
-                  )}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            </form>
-            <div className="mt-10">
-              <button
-                className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
+              <div className="mt-10">
+                <button
+                  className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-medi-200
                                 shadow-lg"
-                onClick={handleSubmit}
-              >
-                Log In
-              </button>
-            </div>
+                  onClick={handleSubmit}
+                >
+                  Log In
+                </button>
+              </div>
+            </form>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Don&apos;t have an account ?
               <Link href="/register">

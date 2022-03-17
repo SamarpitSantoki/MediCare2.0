@@ -6,6 +6,8 @@ interface IContextProps {
   setIsAdmin: any;
   isAuthenticated: any;
   setIsAuthenticated: any;
+  cart: Array<any>;
+  setCart: any;
 }
 const UserContext = createContext({} as IContextProps);
 export default UserContext;

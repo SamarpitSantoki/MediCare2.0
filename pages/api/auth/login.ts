@@ -23,8 +23,14 @@ export default async function handler(req, res) {
       message: "Email or password is incorrect",
     });
   }
+  const resUserData = {
+    id: userData.id,
+    email: userData.email,
+    name: userData.name,
+    role: userData.role,
+  };
   res.status(200).json({
     message: "Login success",
-    user: userData,
+    user: resUserData,
   });
 }

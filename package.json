@@ -12,6 +12,7 @@
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
+    "@tailwindcss/forms": "^0.5.0",
     "@types/react-dom": "^17.0.11",
     "@types/tailwindcss": "^3.0.7",
     "axios": "^0.26.0",

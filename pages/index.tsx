@@ -1,55 +1,60 @@
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import Router from "next/router";
+import { useContext, useEffect } from "react";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer/Footer";
 import Nav from "../components/Navs/Nav";
 import Nav2 from "../components/Navs/Nav2";
 import Products from "../components/Products";
 import productContext from "../contexts/Products/productContext";
+import userContext from "../contexts/User/userContext";
 import dbConnect from "../lib/dbConnect";
 import Category from "../models/categorySchema";
 import Product from "../models/productSchema";
 
 export default function Home({ prods, cats }) {
-  const [cart, setCart] = useState([]);
   const { products, filteredProducts, setFilteredProducts, setProducts } =
     useContext(productContext);
-  useEffect(() => {
-    setProducts(prods);
-    setFilteredProducts(prods);
-  }, []);
+  const { cart, setCart } = useContext(userContext);
 
+  setProducts(prods);
   useEffect(() => {
-    setFilteredProducts(products);
-    console.log("state updated");
+    setFilteredProducts(prods);
+    if (Router.query.search) {
+      let search = Router.query.search;
+      axios
+        .get(`/api/products/search?search=${search}`)
+        .then((res) => {
+          setFilteredProducts(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [products]);
 
   //function to add product to cart
   function addToCart(product) {
-    let prods = cart;
     let prod = (event.target as Element).id;
-    if (prods.length > 0) {
-      if (prods.find((e) => e.slug == prod)) {
-        prods.map((e) => {
+    if (cart.length > 0) {
+      let cartItems = [...cart];
+      if (cartItems.find((e) => e.slug == prod)) {
+        cartItems.map((e) => {
           if (e.slug === prod) e.quntity++;
         });
       } else {
-        prods.push({
+        cartItems.push({
           slug: prod,
           quntity: 1,
         });
       }
+      product = [...cartItems];
+      setCart(product);
+      sessionStorage.setItem("cart", JSON.stringify(product));
     } else {
-      prods.push({
-        slug: prod,
-        quntity: 1,
-      });
+      setCart([{ slug: prod, quntity: 1 }]);
+      sessionStorage.setItem("cart", JSON.stringify(cart));
     }
-    product = [...prods];
-    setCart(product);
-    console.log(product);
   }
 
   //function to search products
@@ -61,7 +66,7 @@ export default function Home({ prods, cats }) {
         <link rel="icon" href="/images/logo copy.png" />
       </Head>
       <div className="w-fit lg:w-full inline-flex flex-col">
-        <Nav cart={cart} />
+        <Nav />
         <div className="m-0 w-full">
           <Nav2 filter={setProducts} cats={cats} />
         </div>
@@ -69,6 +74,7 @@ export default function Home({ prods, cats }) {
           <Carousel />
         </div>
         <Image
+          alt="carousel"
           src="/images/a_carousel.png"
           className="w-auto sticky top-0"
           layout="responsive"

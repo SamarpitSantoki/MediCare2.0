@@ -1,37 +1,165 @@
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/User/userContext";
+
 const MyDetails = () => {
+  //handle the field change
+  const { user, setUser, setIsAdmin, setIsAuthenticated } =
+    useContext(UserContext);
+  // const [fname, setFname] = useState(user.fname);
+  // const [lname, setLname] = useState(user.lname);
+  useEffect(() => {
+    // Perform localStorage action
+    const localUser = JSON.parse(sessionStorage.getItem("user"));
+    if (localUser?.email) {
+      setUser(localUser);
+      setIsAuthenticated(true);
+      setIsAdmin(localUser?.isAdmin);
+    }
+  }, [user]);
+
   return (
-    <div className="m-4 w-fill h-fit space-x-3 space-y-3">
-      <h2>MyDetails</h2>
-      <div className="space-x-3 space-y-5 w-full">
-        <label>Personal Information</label>
-        <hr />
-        <div className="space-y-2 lg:space-x-2 flex-col flex md:flex-none xl:flex-row">
-          <label>First Name : </label>
-          <input type="text" className="border " />
-          <label>Last Name : </label>
-          <input type="text" className="border " />
-        </div>
-        <div>
-          <label>Birth Date : </label>
-          <input type="date" className="border-4 border-double" />
-        </div>
-        <div>
-          <label>Phone Number : </label>
-          <input type="text" className="border-2" placeholder="+91" />
-          <dd>
-            <p className="pt-3">
-              This number will be used to send you reminders and to contact you
-              about your order.
+    <div className="mt-10 sm:mt-0">
+      <div className="md:grid md:grid-cols-3 md:gap-6">
+        <div className="md:col-span-1">
+          <div className="px-4 sm:px-0">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              Personal Information
+            </h3>
+            <p className="mt-1 text-sm text-gray-600">
+              Use a permanent address where you can receive mail.
             </p>
-          </dd>
+          </div>
         </div>
-      </div>
-      <div className="space-x-3 space-y-3">
-        <label>E-mail address</label>
-        <hr />
-        <div>
-          <label>Email-address</label>
-          <input type="email" />
+        <div className="mt-5 md:mt-0 md:col-span-2">
+          <form action="#" method="POST">
+            <div className="shadow overflow-hidden sm:rounded-md bg-gray-50">
+              <div className="px-4 py-5 sm:p-6">
+                <div className="grid grid-cols-6 gap-6">
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      htmlFor="first-name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      First name
+                    </label>
+                    <input
+                      type="text"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-m sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      htmlFor="last-name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      name="last-name"
+                      id="last-name"
+                      autoComplete="family-name"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-4">
+                    <label
+                      htmlFor="email-address"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email address
+                    </label>
+                    <input
+                      type="text"
+                      name="email-address"
+                      id="email-address"
+                      autoComplete="email"
+                      placeholder={user?.email}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="col-span-6">
+                    <label
+                      htmlFor="street-address"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Street address
+                    </label>
+                    <input
+                      type="text"
+                      name="street-address"
+                      id="street-address"
+                      autoComplete="street-address"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-6 lg:col-span-2">
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      autoComplete="address-level2"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                    <label
+                      htmlFor="region"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      State / Province
+                    </label>
+                    <input
+                      type="text"
+                      name="region"
+                      id="region"
+                      autoComplete="address-level1"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                    <label
+                      htmlFor="postal-code"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      ZIP / Postal code
+                    </label>
+                    <input
+                      type="text"
+                      name="postal-code"
+                      id="postal-code"
+                      autoComplete="postal-code"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="px-4 py-3 text-right sm:px-6">
+                <button
+                  type="submit"
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
