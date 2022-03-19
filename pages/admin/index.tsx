@@ -11,14 +11,18 @@ import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Image from "next/image";
 const index = ({ prods }) => {
-  const [products, setProducts] = useState(prods);
-
   return (
     <>
       <div>
         <div className="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex">
           <aside className="py-6 px-10 w-64 border-r border-gray-200">
             <img src="/images/logo.jpg" alt="" className="w-28" />
+            <Image
+              src="/images/logo.jpg"
+              width="112px"
+              alt="Logo"
+              className="w-28"
+            />
             <ul
               //loop here for sidebar
               className="flex flex-col gap-y-6 pt-20"
@@ -43,8 +47,8 @@ const index = ({ prods }) => {
                   Products
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
-                  Let's grow to your business! Create your product and upload
-                  here
+                  Let&aposs grow to your business! Create your product and
+                  upload here
                 </p>
               </div>
               <button className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
@@ -82,9 +86,10 @@ const index = ({ prods }) => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((prod) => {
+                {prods.map((prod) => {
                   return (
                     <tr
+                      key={prod._id}
                       //loop for diff products
                       className="hover:bg-gray-100 transition-colors group"
                     >
@@ -95,6 +100,7 @@ const index = ({ prods }) => {
                         />
                         <Image
                           src={prod.image}
+                          alt="Product"
                           height="100px"
                           width="100px"
                           className="w-40 aspect-[3/2] rounded-lg object-cover object-top border border-gray-200"
