@@ -4,11 +4,13 @@ import Image from "next/image";
 import axios from "axios";
 import Router from "next/router";
 import userContext from "../contexts/User/userContext";
+
 const Register = () => {
   const { setUser } = useContext(userContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   //function to handle register
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ const Register = () => {
         console.warn("error", message);
       });
   };
+
   return (
     <div className="lg:flex">
       <div className="hidden lg:flex items-center justify-center bg-[#e8fcfb] flex-1 h-screen ">
@@ -256,17 +259,17 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            </form>
-            <div className="mt-10">
-              <button
-                className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
+              <div className="mt-10">
+                <button
+                  className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-medi-200
                                 shadow-lg"
-                onClick={handleSubmit}
-              >
-                Register
-              </button>
-            </div>
+                  onClick={handleSubmit}
+                >
+                  Register
+                </button>
+              </div>
+            </form>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Already have an account ?{" "}
               <Link href="/login">

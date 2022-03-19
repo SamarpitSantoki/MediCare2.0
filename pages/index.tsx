@@ -3,11 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Router from "next/router";
 import { useContext, useEffect } from "react";
-import Carousel from "../components/Carousel";
-import Footer from "../components/Footer/Footer";
-import Nav from "../components/Navs/Nav";
-import Nav2 from "../components/Navs/Nav2";
-import Products from "../components/Products";
+import { Nav, Nav2, Footer, Products, Carousel } from "../components";
 import productContext from "../contexts/Products/productContext";
 import userContext from "../contexts/User/userContext";
 import dbConnect from "../lib/dbConnect";
@@ -19,9 +15,9 @@ export default function Home({ prods, cats }) {
     useContext(productContext);
   const { cart, setCart } = useContext(userContext);
 
-  setProducts(prods);
   useEffect(() => {
-    setFilteredProducts(prods);
+    setProducts(prods);
+    setFilteredProducts(products);
     if (Router.query.search) {
       let search = Router.query.search;
       axios
@@ -31,7 +27,7 @@ export default function Home({ prods, cats }) {
         })
         .catch((err) => console.log(err));
     }
-  }, [products]);
+  }, []);
 
   //function to add product to cart
   function addToCart(product) {
@@ -57,8 +53,6 @@ export default function Home({ prods, cats }) {
     }
   }
 
-  //function to search products
-
   return (
     <>
       <Head>
@@ -68,7 +62,7 @@ export default function Home({ prods, cats }) {
       <div className="w-fit lg:w-full inline-flex flex-col">
         <Nav />
         <div className="m-0 w-full">
-          <Nav2 filter={setProducts} cats={cats} />
+          <Nav2 cats={cats} />
         </div>
         <div>
           <Carousel />

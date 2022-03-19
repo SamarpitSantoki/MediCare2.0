@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       message: "User already exists",
     });
   } else {
-    console.log(user);
     const newUser = await new User({
       id: active_ids++,
       name: name,

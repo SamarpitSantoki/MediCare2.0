@@ -15,7 +15,7 @@ const MyDetails = () => {
       setIsAuthenticated(true);
       setIsAdmin(localUser?.isAdmin);
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="mt-10 sm:mt-0">

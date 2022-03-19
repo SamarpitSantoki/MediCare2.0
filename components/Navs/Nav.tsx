@@ -1,11 +1,9 @@
-import Cart from "@heroicons/react/outline/ShoppingCartIcon";
-import Menu from "@heroicons/react/outline/MenuIcon";
-import UserIcon from "@heroicons/react/outline/UserIcon";
-import Link from "next/link";
+import { ShoppingCartIcon, MenuIcon, UserIcon } from "@heroicons/react/outline";
 import productContext from "../../contexts/Products/productContext";
 import { useContext, useEffect } from "react";
 import axios from "axios";
 import userContext from "../../contexts/User/userContext";
+import Link from "next/link";
 import Router from "next/router";
 import Image from "next/image";
 
@@ -45,8 +43,8 @@ const Nav = () => {
           return prod;
         }
       });
-      setFilteredProducts(prods);
       setSearchValue(search);
+      setFilteredProducts(prods);
     } else {
       setSearchValue(search);
       setFilteredProducts(products);
@@ -108,7 +106,7 @@ const Nav = () => {
         </div>
         <div className="flex space-x-3 text-white text-[1.05rem] items-center">
           <a className="inline-flex relative group" href="/cart">
-            <Cart className="w-6" />
+            <ShoppingCartIcon className="w-6" />
             Cart
             <span className="ml-1">{cart.length}</span>
             {/* 
@@ -149,7 +147,7 @@ const Nav = () => {
             id="toggler"
             className="bg-[#00a59c] rounded-md shadow-sm shadow-gray-500 sm:hidden"
           >
-            <Menu className="w-10" color="white" />
+            <MenuIcon className="w-10" color="white" />
           </button>
         </div>
       </div>

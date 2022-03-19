@@ -1,11 +1,16 @@
 import Arrow from "@heroicons/react/outline/ArrowNarrowUpIcon";
+import { useContext } from "react";
+import productContext from "../../contexts/Products/productContext";
 
-const Nav2 = ({ filter, cats }) => {
+const Nav2 = ({ cats }) => {
+  const { setProducts, setFilteredProducts, filteredProducts } =
+    useContext(productContext);
   async function getProds() {
     const cat = (event.target as Element).id;
     const response = await fetch("/api/prodbycat?cat=" + cat);
     const data = await response.json();
-    filter(data);
+    await setProducts(data);
+    await setFilteredProducts(data);
   }
 
   return (

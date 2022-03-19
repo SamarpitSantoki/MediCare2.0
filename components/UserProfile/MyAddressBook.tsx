@@ -1,5 +1,9 @@
 const MyAddressBook = () => {
-  return <div>MyAddresses</div>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 };
 
 export default MyAddressBook;
