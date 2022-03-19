@@ -6,7 +6,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/outline";
-import { useState } from "react";
 import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Image from "next/image";
@@ -16,10 +15,10 @@ const index = ({ prods }) => {
       <div>
         <div className="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex">
           <aside className="py-6 px-10 w-64 border-r border-gray-200">
-            <img src="/images/logo.jpg" alt="" className="w-28" />
             <Image
               src="/images/logo.jpg"
-              width="112px"
+              width="150px"
+              height={48}
               alt="Logo"
               className="w-28"
             />

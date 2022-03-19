@@ -15,8 +15,8 @@ export default function Home({ prods, cats }) {
     useContext(productContext);
   const { cart, setCart } = useContext(userContext);
 
+  setProducts(prods);
   useEffect(() => {
-    setProducts(prods);
     setFilteredProducts(products);
     if (Router.query.search) {
       let search = Router.query.search;
