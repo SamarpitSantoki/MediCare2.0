@@ -3,10 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import Router from "next/router";
-import userContext from "../contexts/User/userContext";
+import { UserContext } from "../contexts";
 
 const Register = () => {
-  const { setUser } = useContext(userContext);
+  const { setUser } = useContext(UserContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

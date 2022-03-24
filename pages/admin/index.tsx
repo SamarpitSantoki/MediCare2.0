@@ -9,6 +9,7 @@ import {
 import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Image from "next/image";
+
 const index = ({ prods }) => {
   return (
     <>

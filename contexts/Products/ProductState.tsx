@@ -1,17 +1,17 @@
 import { useState } from "react";
 import ProductContext from "./productContext";
 const ProductState = (props) => {
-  const [product, setProduct] = useState([]);
-  const [filteredProduct, setFilteredProduct] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [products, setProduct] = useState([]);
+  const [filteredProducts, setFilteredProduct] = useState([]);
+  const [searchValues, setSearchValue] = useState("");
   return (
     <ProductContext.Provider
       value={{
-        products: product,
+        products: products,
         setProducts: setProduct,
-        filteredProducts: filteredProduct,
+        filteredProducts: filteredProducts,
         setFilteredProducts: setFilteredProduct,
-        searchValue: searchValue,
+        searchValue: searchValues,
         setSearchValue: setSearchValue,
       }}
     >

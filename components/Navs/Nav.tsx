@@ -9,9 +9,15 @@ import Image from "next/image";
 
 const Nav = () => {
   // function for toggling dropdown menu
-  const { searchValue, setSearchValue, setFilteredProducts, products } =
-    useContext(productContext);
-  const { user, cart } = useContext(userContext);
+  const {
+    searchValue,
+    setSearchValue,
+    setFilteredProducts,
+    filteredProducts,
+    products,
+  } = useContext(productContext);
+  const { user, cart, setCart, setIsAdmin, setIsAuthenticated, setUser } =
+    useContext(userContext);
 
   useEffect(() => {
     if (Router.query.search) {
@@ -49,6 +55,15 @@ const Nav = () => {
       setSearchValue(search);
       setFilteredProducts(products);
     }
+  }
+
+  //function to handle Logout
+  async function handleLogout() {
+    setCart([]);
+    setIsAdmin(false);
+    setIsAuthenticated(false);
+    setUser(null);
+    sessionStorage.clear();
   }
 
   function dropdownClick() {
@@ -134,11 +149,22 @@ const Nav = () => {
                 </Link>
               </>
             ) : (
-              <span className="duration-1000 transition-all ease-in">
+              <span className="duration-1000 transition-all ease-in relative">
                 {" "}
                 <Link href="/user">
                   <a>{user.name}</a>
                 </Link>
+                <ul className="absolute p-3 top-100 right-0 w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <li className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                    Profile
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-red-500 rounded-md"
+                  >
+                    Logout
+                  </li>
+                </ul>
               </span>
             )}
           </div>

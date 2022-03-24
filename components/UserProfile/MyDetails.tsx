@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../../contexts/User/userContext";
+import { UserContext } from "../../contexts";
 
 const MyDetails = () => {
   //handle the field change

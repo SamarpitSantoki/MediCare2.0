@@ -12,7 +12,7 @@ const UserState = (props) => {
       setUser(localUser);
       setIsAuthenticated(true);
       setIsAdmin(localUser?.isAdmin);
-      setCart(localCart);
+      setCart(localCart || []);
     }
   }, []);
 
