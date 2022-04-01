@@ -12,7 +12,7 @@ import {
   RemindersList,
 } from "../../components/Admin";
 
-const index = ({ prods, cats }) => {
+const Index = ({ prods, cats }) => {
   const [field, setField] = useState();
   const [collections, setCollections] = useState([]);
 
@@ -97,7 +97,7 @@ const index = ({ prods, cats }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getServerSideProps() {
   //connect to database
