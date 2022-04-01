@@ -1,3 +1,4 @@
+import Router from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts";
 
@@ -5,12 +6,15 @@ const MyDetails = () => {
   //handle the field change
   const { user, setUser, setIsAdmin, setIsAuthenticated } =
     useContext(UserContext);
-  // const [fname, setFname] = useState(user.fname);
-  // const [lname, setLname] = useState(user.lname);
+  const [fname, setFname] = useState(user?.fname);
+  const [lname, setLname] = useState(user?.lname);
   useEffect(() => {
     // Perform localStorage action
     const localUser = JSON.parse(sessionStorage.getItem("user"));
     if (localUser?.email) {
+      setFname(localUser.fname);
+      setLname(localUser.lname);
+
       setUser(localUser);
       setIsAuthenticated(true);
       setIsAdmin(localUser?.isAdmin);
@@ -46,6 +50,8 @@ const MyDetails = () => {
                       type="text"
                       name="first-name"
                       id="first-name"
+                      value={fname}
+                      onChange={(e) => setFname(e.target.value)}
                       autoComplete="given-name"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-m sm:text-sm border-gray-300 rounded-md h-8"
                     />
@@ -62,6 +68,8 @@ const MyDetails = () => {
                       type="text"
                       name="last-name"
                       id="last-name"
+                      value={lname}
+                      onChange={(e) => setLname(e.target.value)}
                       autoComplete="family-name"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-8"
                     />

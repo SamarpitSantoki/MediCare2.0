@@ -3,11 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import Router from "next/router";
-import { UserContext } from "../contexts";
+import { UserContext } from "../../contexts";
 
 const Register = () => {
   const { setUser } = useContext(UserContext);
-  const [name, setName] = useState("");
+  const [fname, setFName] = useState("");
+  const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +16,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/api/auth/register", { name, email, password })
+      .post("/api/auth/register", { fname, lname, email, password })
       .then(async ({ data }) => {
         await setUser(data.user);
         sessionStorage.setItem("user", JSON.stringify(data.user));
@@ -33,7 +34,7 @@ const Register = () => {
   return (
     <div className="lg:flex">
       <div className="hidden lg:flex items-center justify-center bg-[#e8fcfb] flex-1 h-screen ">
-        <Link href="/login">
+        <Link href="/auth/login">
           <a className="max-w-xs transform  duration-200 hover:scale-110 cursor-pointer">
             <svg
               className="w-5/6 mx-auto -scale-x-100"
@@ -218,19 +219,35 @@ const Register = () => {
           </h2>
           <div className="mt-12">
             <form onSubmit={(e) => e.preventDefault}>
-              <div>
-                <div className="text-sm font-bold text-gray-700 tracking-wide">
-                  Name
-                </div>
-                <input
-                  className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-medi"
-                  placeholder="Samar"
-                  name="name"
-                  type="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+              <div className="mt-8 flex space-x-4">
+                <span>
+                  <div className="text-sm font-bold text-gray-700 tracking-wide">
+                    First Name
+                  </div>
+                  <input
+                    className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-medi"
+                    placeholder="John"
+                    type="text"
+                    name="name"
+                    value={fname}
+                    onChange={(e) => setFName(e.target.value)}
+                  />
+                </span>
+                <span>
+                  <div className="text-sm font-bold text-gray-700 tracking-wide">
+                    Last Name
+                  </div>
+                  <input
+                    className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-medi"
+                    placeholder="Snow"
+                    type="text"
+                    name="name"
+                    value={lname}
+                    onChange={(e) => setLName(e.target.value)}
+                  />
+                </span>
               </div>
+
               <div className="mt-8">
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
                   Email Address
@@ -272,7 +289,7 @@ const Register = () => {
             </form>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Already have an account ?{" "}
-              <Link href="/login">
+              <Link href="/auth/login">
                 <a className="cursor-pointer text-medi-100 hover:text-medi-200">
                   Sign in
                 </a>

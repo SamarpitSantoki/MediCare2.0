@@ -3,12 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { UserContext } from "../contexts";
+import { UserContext } from "../../contexts";
 
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState();
   const { setUser } = useContext(UserContext);
 
   //function to handle the login
@@ -26,7 +27,7 @@ const Login = () => {
           typeof err.response !== "undefined"
             ? err.response.data.message
             : err.message;
-        console.warn("error", message);
+        setMsg(message);
       });
   };
 
@@ -91,6 +92,17 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              {msg ? (
+                <div
+                  className="mt-2 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                  role="alert"
+                >
+                  <span className="font-medium">Error : </span>
+                  {msg}
+                </div>
+              ) : (
+                ""
+              )}
               <div className="mt-10">
                 <button
                   className="bg-medi-100 text-gray-100 p-4 w-full rounded-full tracking-wide
@@ -104,7 +116,7 @@ const Login = () => {
             </form>
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
               Don&apos;t have an account ?
-              <Link href="/register">
+              <Link href="/auth/register">
                 <a className="cursor-pointer text-medi-100 hover:text-medi-200">
                   Sign up
                 </a>
@@ -114,7 +126,7 @@ const Login = () => {
         </div>
       </div>
       <div className="hidden lg:flex items-center justify-center bg-[#e8fcfb] flex-1 h-screen">
-        <Link href="/register">
+        <Link href="/auth/register">
           <a className="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
             <svg
               className="w-5/6 mx-auto"

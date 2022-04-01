@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   await dbConnect();
   const user = req.body;
 
-  const { name, email, password } = user;
+  const { fname, lname, email, password } = user;
   const userData = await User.findOne({ email });
   let active_ids = (await User.countDocuments({})) + 1;
   if (userData) {
@@ -15,14 +15,17 @@ export default async function handler(req, res) {
   } else {
     const newUser = await new User({
       id: active_ids++,
-      name: name,
+      fname: fname,
+      lname: lname,
       email: email,
       password: password,
+      admin: false,
     });
     await newUser.save();
     const resUserData = {
       id: newUser.id,
-      name: newUser.name,
+      fname: newUser.fname,
+      lname: newUser.lname,
       email: newUser.email,
       role: newUser.role,
     };

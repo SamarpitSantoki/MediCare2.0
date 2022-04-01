@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const userData = await User.findOne({ email });
 
   if (!userData) {
-    return res.status(401).json({
+    return res.status(400).json({
       message: "Email or password is incorrect",
     });
   }
@@ -24,7 +24,8 @@ export default async function handler(req, res) {
   const resUserData = {
     id: userData.id,
     email: userData.email,
-    name: userData.name,
+    fname: userData.fname,
+    lname: userData.lname,
     role: userData.role,
   };
   res.status(200).json({
