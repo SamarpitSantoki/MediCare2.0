@@ -51,7 +51,7 @@ const index = () => {
       },
     };
 
-    const paymentObject = new window.Razorpay(options);
+    const paymentObject = new (window as any).Razorpay(options);
     paymentObject.open();
   }
   return (
