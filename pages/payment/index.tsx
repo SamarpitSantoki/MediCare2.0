@@ -40,7 +40,6 @@ const index = () => {
       description: "Thankyou for your test donation",
       image: "./images/logo.jpg",
       handler: function (response) {
-        console.log("Payment successfull");
         //call order saving from here and pass the extra data as well of items in the cart
         console.log(response);
       },
