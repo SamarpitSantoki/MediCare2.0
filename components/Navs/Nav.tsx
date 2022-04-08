@@ -8,13 +8,8 @@ import Router from "next/router";
 import Image from "next/image";
 const Nav = () => {
   // function for toggling dropdown menu
-  const {
-    searchValue,
-    setSearchValue,
-    setFilteredProducts,
-    filteredProducts,
-    products,
-  } = useContext(productContext);
+  const { searchValue, setSearchValue, setFilteredProducts, products } =
+    useContext(productContext);
   const { user, cart, setCart, setIsAdmin, setIsAuthenticated, setUser } =
     useContext(userContext);
 

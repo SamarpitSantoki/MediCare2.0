@@ -1,7 +1,6 @@
 import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Category from "../../models/categorySchema";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -12,7 +11,7 @@ import {
   RemindersList,
 } from "../../components/Admin";
 
-const Index = ({ prods, cats }) => {
+const Index = ({ prods, cats, user }) => {
   const [field, setField] = useState();
   const [collections, setCollections] = useState([]);
 
@@ -28,7 +27,7 @@ const Index = ({ prods, cats }) => {
   const renderSwitch = (field) => {
     switch (field) {
       case "users":
-        return <UserList />;
+        return <UserList users={user} />;
       case "orders":
         return <OrderList />;
       case "categories":
@@ -63,16 +62,19 @@ const Index = ({ prods, cats }) => {
   return (
     <>
       <div>
-        <div className="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex">
+        <div className="w-fit lg:w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex">
           {/* SideBar */}
           <aside className="py-6 px-10 w-64 border-r border-gray-200">
-            <Image
+            {/* <Image
               src="/images/logo.jpg"
               width="150px"
               height={48}
               alt="Logo"
               className="w-28"
-            />
+            /> */}
+            <div className="text-4xl font-semibold px-4 py-2 ring-2 ring-medi-200 w-fit text-medi-200">
+              MediCare
+            </div>
             <ul id="myDIV" className="flex flex-col gap-y-6 pt-20">
               {collections.map((collection) => {
                 return (

@@ -1,7 +1,13 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const index = () => {
+  const [resfrompay, setresfrompay] = useState(null);
+
+  useEffect(() => {
+    console.log(resfrompay);
+  }, [resfrompay]);
+
   function initializeRazorpay() {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -41,6 +47,11 @@ const index = () => {
       image: "./images/logo.jpg",
       handler: function (response) {
         //call order saving from here and pass the extra data as well of items in the cart
+        axios.post("api/payment/confirm", {
+          ...response,
+          Order: Order,
+        });
+        setresfrompay(response);
         console.log(response);
       },
       prefill: {
