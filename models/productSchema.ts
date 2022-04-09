@@ -26,6 +26,9 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  orders: {
+    type: Number,
+  },
 });
 
 export default mongoose.models.Product ||

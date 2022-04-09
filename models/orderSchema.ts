@@ -13,6 +13,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  amount: {
+    type: Number,
+    required: true,
+  },
   orderArray: {
     type: [Object],
     required: true,
@@ -27,6 +31,4 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-const Order = mongoose.model("Order", orderSchema);
-
-module.exports = Order;
+export default mongoose.models.Order || mongoose.model("Order", orderSchema);

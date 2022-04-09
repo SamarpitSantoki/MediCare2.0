@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const index = () => {
+const Index = () => {
   const [resfrompay, setresfrompay] = useState(null);
 
   useEffect(() => {
@@ -49,7 +49,6 @@ const index = () => {
         //call order saving from here and pass the extra data as well of items in the cart
         axios.post("api/payment/confirm", {
           ...response,
-          Order: Order,
         });
         setresfrompay(response);
         console.log(response);
@@ -72,4 +71,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

@@ -1,84 +1,165 @@
-import {
-  PlusIcon,
-  FilterIcon,
-  PencilIcon,
-  TrashIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/outline";
-import Image from "next/image";
-import { useState } from "react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 
-const UserList = ({ users }) => {
-  const [products, setProducts] = useState(users);
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import ReactPaginate from "react-paginate";
 
-  // handle product filter
-  const handleFilter = async (event) => {
-    const cat = event.target.value;
-    console.log(cat);
-    const filtered_prods = await users.filter((item) => item.category === cat);
-    setProducts(filtered_prods);
-    return;
+import "react-toastify/dist/ReactToastify.css";
+const ProductList = ({ users }) => {
+  const [userList, setUsersList] = useState(users);
+  const [edit, setEdit] = useState(null);
+  const [modal, setModal] = useState(null);
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+
+  useEffect(() => {
+    // Fetch items from another resources.
+    const endOffset = itemOffset + 10;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    setCurrentItems(userList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(userList.length / 10));
+  }, [itemOffset, userList]);
+
+  //handle Pagination Click
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 10) % userList.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
   };
+
   return (
-    <main className="w-full pb-8">
+    <main className="relative w-full pb-8">
       {/* <!--modal content--> */}
-      <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <div className="mt-3 text-center">
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-            <svg
-              className="h-6 w-6 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-          </div>
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Successful!
-          </h3>
-          <div className="mt-2 px-7 py-3">
-            <p className="text-sm text-gray-500">
-              Account has been successfully registered!
-            </p>
-          </div>
-          <div className="items-center px-4 py-3">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {modal && (
+        <div
+          id="edit_prod"
+          className="absolute w-1/3 left-1/3 top-52 bg-white rounded-lg shadow dark:bg-gray-700"
+        >
+          <div className="flex justify-end p-2">
             <button
-              id="ok-btn"
-              className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+              onClick={() => {
+                setEdit(null);
+                setModal(false);
+              }}
+              type="button"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-toggle="authentication-modal"
             >
-              OK
+              <svg
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
             </button>
           </div>
+          <form
+            className="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8"
+            action="#"
+          >
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Edit User
+            </h3>
+            <div>
+              <label
+                htmlFor="fname"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                name="fname"
+                id="fname"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                defaultValue={edit?.fname}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="lname"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="lname"
+                id="lname"
+                defaultValue={edit?.lname}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="Email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Email
+              </label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                defaultValue={edit?.email}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+            </div>
+
+            <button
+              type="submit"
+              onClick={() => {
+                event.preventDefault();
+                toast.success("User Edited Succefully.", {
+                  position: "bottom-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }}
+              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Save Changes
+            </button>
+          </form>
         </div>
-      </div>
+      )}
+
       <div className="flex items-center justify-between py-7 px-10">
         <div>
           <h1 className="text-2xl font-semibold leading-relaxed text-gray-800">
-            Products
+            Users
           </h1>
           <p className="text-sm font-medium text-gray-500">
-            Let&apos;s grow to your business! Create your product and upload
-            here
+            Let&apos;s grow to your business! Manage your Users here
           </p>
         </div>
-        {/* <button className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
-          <PlusIcon className="w-6 h-6 fill-current" />
-          <span className="text-sm font-semibold tracking-wide">
-            Create Item
-          </span>
-        </button> */}
-
         <button
           className="bg-medi-200 text-white rounded-md px-8 py-2 text-base font-medium hover:bg-medi-100 focus:outline-none focus:ring-2 focus:ring-green-300"
-          id="open-btn"
+          onClick={() => setModal(true)}
         >
           Add New
         </button>
@@ -87,80 +168,82 @@ const UserList = ({ users }) => {
           id="my-modal"
         ></div>
       </div>
-      {/* display categories here */}
-      <ul className="flex gap-x-24 items-center px-4 border-y border-gray-200">
-        {users.map((cat) => {
-          return (
-            <li key={cat._id}>
-              <button
-                className="flex gap-x-2 items-center py-5 px-6 
-                w-full text-gray-500 hover:text-indigo-600 relative group font-medium"
-                value={cat.slug}
-                onClick={(event) => handleFilter(event)}
-              >
-                {cat.title}
-                <span className="absolute w-full h-0.5 left-0 bg-indigo-600 rounded bottom-0 scale-x-0 group-hover:scale-x-100 transition-transform ease-in-out" />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
 
-      <table className="w-full border-b border-gray-200">
+      <table className="w-full border-b border-t border-gray-200">
         <thead>
           <tr className="text-sm font-medium text-gray-700 border-b border-gray-200">
             <td className="pl-10">
               <span> {"  "}</span>
               <div className="flex items-center gap-x-4">
-                <span>Product Name</span>
+                <span>User Name</span>
               </div>
             </td>
-            <td className="py-4 px-4 text-center">Pricing</td>
-            <td className="py-4 px-4 text-center">Orders</td>
-            <td className="py-4 pr-10 pl-4 text-center">
-              <FilterIcon className="w-6 h-6 fill-current" />
-            </td>
+            <td className="py-4 px-4 text-center">Email</td>
+            <td className="py-4 px-4 text-center">Phone Number</td>
+            <td className="py-4 pr-10 pl-4 text-center">Address</td>
           </tr>
         </thead>
         <tbody className="w-fit">
-          {products.map((prod) => {
+          {currentItems?.map((user) => {
             return (
               <tr
-                key={prod._id}
-                //loop for diff products
+                key={user._id}
+                //loop for diff users
                 className="hover:bg-gray-100 transition-colors group"
               >
                 <td className="flex gap-x-4 items-center py-4 pl-10">
-                  <Image
-                    src={prod.image}
-                    alt="Product"
-                    height="100px"
-                    width="100px"
-                    className="w-40 aspect-[3/2] rounded-lg object-cover object-top border border-gray-200"
-                  />
                   <div>
                     <a href="#" className="text-lg font-semibold text-gray-700">
-                      {prod.title}
+                      {user.fname + " " + user.lname}
                     </a>
                     <div className="font-medium text-gray-400">
                       {" "}
-                      {prod.category}{" "}
+                      {user.email}{" "}
                     </div>
                   </div>
                 </td>
-                <td className="font-medium text-center"> ₹{prod.price} </td>
-                <td className="font-medium text-center"> product.Orders </td>
-
+                <td className="font-medium text-center"> {user.email} </td>
+                <td className="font-medium text-center">
+                  {" "}
+                  {user.number || "Not Provided"}{" "}
+                </td>
                 <td className="pr-2">
                   <span className="inline-block w-20 group-hover:hidden">
                     product.createdAt
                   </span>
                   <div className="hidden group-hover:flex group-hover:w-20 group-hover:items-center group-hover:text-gray-500 group-hover:gap-x-2">
-                    <button className="p-2 hover:rounded-md hover:bg-gray-200">
+                    <button
+                      onClick={async () => {
+                        if (modal === true) {
+                          setModal(false);
+                          console.log(edit);
+                        }
+                        setEdit(user);
+                        console.log(edit);
+                        setModal(true);
+                      }}
+                      className="p-2 hover:rounded-md hover:bg-gray-200"
+                    >
                       <PencilIcon className="w-6 h-6 fill-current" />
                     </button>
-                    <button className="p-2 hover:rounded-md hover:bg-gray-200">
-                      <TrashIcon className="w-6 h-6 fill-current" />
+                    <button
+                      className="p-2 hover:rounded-md hover:bg-gray-200 z-1"
+                      onClick={() => {
+                        toast.success("User Deleted!", {
+                          position: "bottom-center",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      }}
+                    >
+                      <TrashIcon
+                        name={user.email}
+                        className="w-6 h-6 fill-current z-0"
+                      />
                     </button>
                   </div>
                 </td>
@@ -169,23 +252,26 @@ const UserList = ({ users }) => {
           })}
         </tbody>
       </table>
-      <div className="flex gap-x-2 justify-center pt-8">
-        <button className="flex justify-center items-center w-8 h-8">
-          <ChevronLeftIcon className="w-6 h-6 to-gray-800 stroke-current hover:text-indigo-600" />
-        </button>
-        <button
-          v-for="i in 6"
-          //loop for pagination of the page
-          className="flex items-center justify-center w-8 h-8 font-medium rounded-full"
-        >
-          Pagination
-        </button>
-        <button className="flex justify-center items-center w-8 h-8">
-          <ChevronRightIcon className="w-6 h-6 to-gray-800 stroke-current hover:text-indigo-600" />
-        </button>
+      <div className="flex gap-x-2 justify-center pt-8 ">
+        <ReactPaginate
+          breakLabel="..."
+          containerClassName="flex justify-between list-none pointer items-center h-10 space-x-3"
+          activeLinkClassName="text-medi-300 text-white"
+          pageLinkClassName="p-2 border-2 rounded-sm  text-medi-100 border-medi-200 hover:bg-medi-200 hover:text-white"
+          pageRangeDisplayed={5}
+          renderOnZeroPageCount={null}
+          previousLabel={"← Previous"}
+          nextLabel={"Next →"}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          previousLinkClassName={"font-bold"}
+          nextLinkClassName={"font-bold"}
+          disabledClassName={"text-gray-500 cursor-not-allowed "}
+          activeClassName={"text-white "}
+        />
       </div>
     </main>
   );
 };
 
-export default UserList;
+export default ProductList;

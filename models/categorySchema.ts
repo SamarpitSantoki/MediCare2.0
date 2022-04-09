@@ -7,6 +7,9 @@ const categoeySchema = new mongoose.Schema({
   slug: {
     type: String,
   },
+  products: {
+    type: Number,
+  },
 });
 
 export default mongoose.models.Category ||

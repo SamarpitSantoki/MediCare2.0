@@ -2,6 +2,7 @@ import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Category from "../../models/categorySchema";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 import {
   ProductList,
@@ -10,6 +11,8 @@ import {
   UserList,
   RemindersList,
 } from "../../components/Admin";
+import User from "../../models/userSchema";
+import Link from "next/link";
 
 const Index = ({ prods, cats, user }) => {
   const [field, setField] = useState();
@@ -31,7 +34,7 @@ const Index = ({ prods, cats, user }) => {
       case "orders":
         return <OrderList />;
       case "categories":
-        return <CategoryList />;
+        return <CategoryList cats={cats} />;
       case "Reminders":
         return <RemindersList />;
       default:
@@ -72,9 +75,12 @@ const Index = ({ prods, cats, user }) => {
               alt="Logo"
               className="w-28"
             /> */}
-            <div className="text-4xl font-semibold px-4 py-2 ring-2 ring-medi-200 w-fit text-medi-200">
-              MediCare
-            </div>
+
+            <Link href="/">
+              <a className="text-4xl font-semibold px-4 py-2 ring-2 ring-medi-200 w-fit text-medi-200">
+                MediCare
+              </a>
+            </Link>
             <ul id="myDIV" className="flex flex-col gap-y-6 pt-20">
               {collections.map((collection) => {
                 return (
@@ -121,6 +127,13 @@ export async function getServerSideProps() {
     return cat;
   });
 
-  return { props: { prods: prods, cats: cats } };
+  const user = await User.find({});
+  const users = user.map((doc) => {
+    const cat = doc.toObject();
+    cat._id = cat._id.toString();
+    return cat;
+  });
+
+  return { props: { prods: prods, cats: cats, user: users } };
   // return { props: { prods: prods } };
 }
