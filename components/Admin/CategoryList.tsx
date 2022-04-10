@@ -1,14 +1,40 @@
-import {
-  PencilIcon,
-  TrashIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
+import axios from "axios";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 const CategoryList = ({ cats }) => {
   const [edit, setEdit] = useState(null);
   const [modal, setModal] = useState(null);
+
+  async function handleSubmit() {
+    console.log(edit);
+    const { data } = await axios.post("/api/admin/category", {
+      ...edit,
+    });
+    toast.success(data.message, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+
+  async function handleCatDelete(cat) {
+    console.log(cat);
+    const { data } = await axios.delete(`/api/admin/category?id=${cat._id}`);
+    toast.success(data.message, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
   return (
     <main className="w-full pb-8">
       <ToastContainer
@@ -71,6 +97,10 @@ const CategoryList = ({ cats }) => {
                 id="title"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 defaultValue={edit?.title}
+                onChange={(e) => {
+                  edit.title = e.target.value;
+                  console.log(edit.title);
+                }}
               />
             </div>
 
@@ -78,15 +108,7 @@ const CategoryList = ({ cats }) => {
               type="submit"
               onClick={() => {
                 event.preventDefault();
-                toast.success("User Edited Succefully.", {
-                  position: "bottom-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
+                handleSubmit();
               }}
               className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -107,7 +129,9 @@ const CategoryList = ({ cats }) => {
 
         <button
           className="bg-medi-200 text-white rounded-md px-8 py-2 text-base font-medium hover:bg-medi-100 focus:outline-none focus:ring-2 focus:ring-green-300"
-          onClick={() => setModal(true)}
+          onClick={() => {
+            setEdit({}), setModal(true);
+          }}
         >
           Add New
         </button>
@@ -143,10 +167,6 @@ const CategoryList = ({ cats }) => {
                     <a href="#" className="text-lg font-semibold text-gray-700">
                       {cat.title}
                     </a>
-                    <div className="font-medium text-gray-400">
-                      {" "}
-                      {cat.email}{" "}
-                    </div>
                   </div>
                 </td>
                 <td className="font-medium text-center"> {cat.products} </td>
@@ -157,10 +177,9 @@ const CategoryList = ({ cats }) => {
                       onClick={async () => {
                         if (modal === true) {
                           setModal(false);
-                          console.log(edit);
                         }
+
                         setEdit(cat);
-                        console.log(edit);
                         setModal(true);
                       }}
                       className="p-2 hover:rounded-md hover:bg-gray-200"
@@ -170,15 +189,7 @@ const CategoryList = ({ cats }) => {
                     <button
                       className="p-2 hover:rounded-md hover:bg-gray-200 z-1"
                       onClick={() => {
-                        toast.success("Product Deleted!", {
-                          position: "bottom-center",
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                        });
+                        handleCatDelete(cat);
                       }}
                     >
                       <TrashIcon

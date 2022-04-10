@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Link from "next/link";
 
 const OrderList = () => {
   const [orderList, setOrderList] = useState([]);
@@ -111,12 +112,11 @@ const OrderList = () => {
                 className="hover:bg-gray-100 transition-colors group"
               >
                 <td className="flex gap-x-4 items-center py-4 pl-10">
-                  <div>
-                    <a href="#" className="text-lg  text-gray-700">
-                      {order._id}
-                    </a>
-                  </div>
+                  <Link href={`/order?id=${order._id}&email=${order.email}`}>
+                    <a>{order._id}</a>
+                  </Link>
                 </td>
+
                 <td className="font-medium text-center"> {order.email} </td>
                 <td className="font-medium text-center"> {order.amount} </td>
                 <td className="font-medium text-center">

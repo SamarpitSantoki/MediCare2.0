@@ -63,20 +63,6 @@ const Index = () => {
               >
                 My Orders
               </button>
-              <button
-                className="group hover:bg-medi-700 hover:text-medi-100 w-36 px-2 py-1 rounded-md"
-                value={"Trackers"}
-                onClick={handleChange}
-              >
-                Trackers
-              </button>
-              <button
-                className="group hover:bg-medi-700 hover:text-medi-100 w-36 px-2 py-1 rounded-md"
-                value={"Reminders"}
-                onClick={handleChange}
-              >
-                Reminders
-              </button>
             </section>
             <section className="bg-white p-5 rounded-lg w-full">
               {renderSwitch(field)}

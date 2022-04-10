@@ -28,6 +28,7 @@ const productSchema = new mongoose.Schema({
   },
   orders: {
     type: Number,
+    default: 0,
   },
 });
 

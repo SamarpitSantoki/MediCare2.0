@@ -5,10 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
 
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 const ProductList = ({ prods, cats }) => {
   const [products, setProducts] = useState(prods);
   const [edit, setEdit] = useState(null);
   const [modal, setModal] = useState(null);
+  const [method, setMethod] = useState("Add");
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -45,6 +47,57 @@ const ProductList = ({ prods, cats }) => {
     }
   };
 
+  const handleSubmit = async () => {
+    const { data } = await axios.post("api/admin/product", edit);
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(data.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const hadnleDelete = async (id) => {
+    const { data } = await axios.delete(`/api/admin/product?id=${id}`);
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(data.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
   return (
     <main className="relative w-full pb-8">
       {/* <!--modal content--> */}
@@ -66,7 +119,9 @@ const ProductList = ({ prods, cats }) => {
         >
           <div className="flex justify-end p-2">
             <button
-              onClick={() => setModal(false)}
+              onClick={() => {
+                setModal(false), setEdit(null), setMethod("Add");
+              }}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
               data-modal-toggle="authentication-modal"
@@ -90,7 +145,7 @@ const ProductList = ({ prods, cats }) => {
             action="#"
           >
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              Edit Product
+              {method} Product
             </h3>
             <div>
               <label
@@ -105,6 +160,9 @@ const ProductList = ({ prods, cats }) => {
                 id="product"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 defaultValue={edit?.title}
+                onChange={(e) => {
+                  edit.title = e.target.value;
+                }}
               />
             </div>
             <div>
@@ -114,11 +172,18 @@ const ProductList = ({ prods, cats }) => {
               >
                 Category
               </label>
-              <select name="Category" id="Category">
+              <select
+                name="Category"
+                id="Category"
+                onChange={(event) => {
+                  edit.category = event.target.value;
+                }}
+                defaultValue={edit.category}
+              >
                 {cats.map((cat) => (
                   <option
                     key={cat.id}
-                    value={cat.id}
+                    value={cat.slug}
                     {...(edit?.category === cat.slug && { selected: true })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   >
@@ -139,6 +204,9 @@ const ProductList = ({ prods, cats }) => {
                 name="price"
                 id="price"
                 defaultValue={edit?.price}
+                onChange={(e) => {
+                  edit.price = e.target.value;
+                }}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               />
             </div>
@@ -154,6 +222,9 @@ const ProductList = ({ prods, cats }) => {
                 name="desc"
                 id="desc"
                 defaultValue={edit?.desc}
+                onChange={(e) => {
+                  edit.desc = e.target.value;
+                }}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               />
             </div>
@@ -164,22 +235,20 @@ const ProductList = ({ prods, cats }) => {
               >
                 Image
               </label>
-              <input type="file" name="myImage" />
+              <input
+                type="file"
+                name="myImage"
+                onChange={(e) => {
+                  edit.image = e.target.files;
+                }}
+              />
             </div>
 
             <button
               type="submit"
               onClick={() => {
                 event.preventDefault();
-                toast.success("Product Edited Succefully.", {
-                  position: "bottom-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
+                handleSubmit();
               }}
               className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -202,7 +271,7 @@ const ProductList = ({ prods, cats }) => {
         <button
           className="bg-medi-200 text-white rounded-md px-8 py-2 text-base font-medium hover:bg-medi-100 focus:outline-none focus:ring-2 focus:ring-green-300"
           onClick={() => {
-            setEdit(null), setModal(true);
+            setEdit({}), setModal(true);
           }}
         >
           Add New
@@ -290,10 +359,9 @@ const ProductList = ({ prods, cats }) => {
                       onClick={async () => {
                         if (modal === true) {
                           setModal(false);
-                          console.log(edit);
                         }
                         setEdit(prod);
-                        console.log(edit);
+                        setMethod("Edit");
                         setModal(true);
                       }}
                       className="p-2 hover:rounded-md hover:bg-gray-200"
@@ -303,15 +371,7 @@ const ProductList = ({ prods, cats }) => {
                     <button
                       className="p-2 hover:rounded-md hover:bg-gray-200 z-1"
                       onClick={() => {
-                        toast.success("Product Deleted!", {
-                          position: "bottom-center",
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                        });
+                        hadnleDelete(prod._id);
                       }}
                     >
                       <TrashIcon

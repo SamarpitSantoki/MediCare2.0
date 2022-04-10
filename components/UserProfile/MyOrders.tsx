@@ -1,4 +1,19 @@
+import axios from "axios";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts";
+import Order from "../../models/orderSchema";
+
 const MyOrders = () => {
+  const { user } = useContext(UserContext);
+  const [orders, setOrders] = useState(null);
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+  async function fetchOrders() {
+    const { data } = await axios.get(`api/user/getorders?email=${user.email}`);
+    setOrders(data);
+  }
   return (
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-4 md:gap-6">
@@ -15,14 +30,33 @@ const MyOrders = () => {
         <div className="mt-5 md:mt-0 md:col-span-3">
           <div className="shadow overflow-hidden sm:rounded-md bg-gray-50">
             <div className="px-4 py-5 sm:p-6">
-              <table className="w-full">
-                <thead className="text-gray-500 font-light">
-                  <th>Block No.</th>
-                  <th>City</th>
-                  <th>State</th>
-                  <th>Pincode</th>
+              <table className="w-full text-center">
+                <thead className="text-gray-500 font-light ">
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
                 </thead>
-                <tbody>Map here for orders array</tbody>
+                <tbody>
+                  {orders?.map((order) => {
+                    return (
+                      <tr key={order._id}>
+                        <td>
+                          <Link
+                            href={`/order?id=${order._id}&email=${order.email}`}
+                          >
+                            <a>{order._id}</a>
+                          </Link>
+                        </td>
+                        <td>₹{order.amount}</td>
+                        <td>{order.date}</td>
+                        <td>{order.status}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
               </table>
             </div>
             <div className="px-4 py-3 text-right sm:px-6">

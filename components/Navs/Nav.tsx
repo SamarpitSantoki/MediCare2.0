@@ -76,6 +76,7 @@ const Nav = () => {
 
   function handleClearCart() {
     setCart([]);
+    localStorage.removeItem("cart");
   }
   return (
     <div className="flex flex-col m-0 w-full sticky top-0 z-50">
