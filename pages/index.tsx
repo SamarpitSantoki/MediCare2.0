@@ -32,7 +32,7 @@ export default function Home({ prods, cats }) {
   }, [products]);
 
   //function to add product to cart
-  function addToCart(product) {
+  function addToCart(item) {
     let prod = (event.target as Element).id;
     if (cart.length > 0) {
       let cartItems = [...cart];
@@ -42,15 +42,15 @@ export default function Home({ prods, cats }) {
         });
       } else {
         cartItems.push({
-          slug: prod,
+          ...item,
           quntity: 1,
         });
       }
-      product = [...cartItems];
+      let product = [...cartItems];
       setCart(product);
       sessionStorage.setItem("cart", JSON.stringify(product));
     } else {
-      setCart([{ slug: prod, quntity: 1 }]);
+      setCart([{ ...item, quntity: 1 }]);
       sessionStorage.setItem("cart", JSON.stringify(cart));
     }
   }

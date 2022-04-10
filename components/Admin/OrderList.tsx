@@ -145,7 +145,7 @@ const OrderList = () => {
                     <button
                       className="p-2 hover:rounded-md hover:bg-gray-200 z-1"
                       onClick={() => {
-                        toast.success("Product Deleted!", {
+                        toast.success("Order Deleted!", {
                           position: "bottom-center",
                           autoClose: 5000,
                           hideProgressBar: false,

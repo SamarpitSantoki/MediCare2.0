@@ -29,6 +29,14 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  payment_id: {
+    type: String,
+    required: true,
+  },
+  order_id: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.models.Order || mongoose.model("Order", orderSchema);

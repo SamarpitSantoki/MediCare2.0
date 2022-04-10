@@ -3,8 +3,6 @@ import {
   MyDetails,
   MyAddressBook,
   MyOrders,
-  Trackers,
-  Reminders,
 } from "../../components/UserProfile/";
 import Nav from "../../components/Navs/Nav";
 
@@ -20,10 +18,6 @@ const Index = () => {
         return <MyAddressBook />;
       case "My Orders":
         return <MyOrders />;
-      case "Trackers":
-        return <Trackers />;
-      case "Reminders":
-        return <Reminders />;
       default:
         return <MyDetails />;
     }
