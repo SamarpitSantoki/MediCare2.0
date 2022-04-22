@@ -123,7 +123,7 @@ const Cart = () => {
           </Link>
           <Link href="/auth/register">
             <a className="text-xl text-medi-100 border-t ml-3 w-fit border-slate-300">
-              Don't Have Account Click Here.
+              Don&apos;t Have Account Click Here.
             </a>
           </Link>
         </div>
