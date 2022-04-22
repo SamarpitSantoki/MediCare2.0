@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import { Nav } from "../components";
-import { UserContext } from "../contexts";
-import "react-toastify/dist/ReactToastify.css";
-import Image from "next/image";
-import axios from "axios";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../contexts";
+import { Nav } from "../components";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const { user, cart, setCart } = useContext(UserContext);
@@ -114,7 +114,22 @@ const Cart = () => {
     });
     setTotal(total);
   }, [cart]);
-
+  if (user == null) {
+    return (
+      <>
+        <div className="grid place-content-center space-y-2 h-screen text-6xl text-medi-200 bg-medi-700">
+          <Link href="/auth/login">
+            <a>You have to Login First.</a>
+          </Link>
+          <Link href="/auth/register">
+            <a className="text-xl text-medi-100 border-t ml-3 w-fit border-slate-300">
+              Don't Have Account Click Here.
+            </a>
+          </Link>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <ToastContainer

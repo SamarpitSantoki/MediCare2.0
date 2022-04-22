@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  role: {
+    type: Boolean,
+  },
 });
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

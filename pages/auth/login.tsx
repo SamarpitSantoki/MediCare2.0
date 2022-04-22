@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState();
-  const { setUser } = useContext(UserContext);
+  const { setUser, setIsAdmin } = useContext(UserContext);
 
   //function to handle the login
   const handleSubmit = async (e) => {
@@ -19,6 +19,7 @@ const Login = () => {
       .post("/api/auth/login", { email, password })
       .then(async ({ data }) => {
         await setUser(data.user);
+        await setIsAdmin(data.user.role || false);
         sessionStorage.setItem("user", JSON.stringify(data.user));
         router.push("/");
       })

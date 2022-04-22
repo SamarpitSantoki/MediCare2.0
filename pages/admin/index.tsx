@@ -1,8 +1,7 @@
 import dbConnect from "../../lib/dbConnect";
 import Product from "../../models/productSchema";
 import Category from "../../models/categorySchema";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import {
   ProductList,
@@ -13,8 +12,10 @@ import {
 } from "../../components/Admin";
 import User from "../../models/userSchema";
 import Link from "next/link";
+import userContext from "../../contexts/User/userContext";
 
-const Index = ({ prods, cats, user }) => {
+const Index = ({ prods, cats, users }) => {
+  const { isAdmin } = useContext(userContext);
   const [field, setField] = useState();
   const [collections, setCollections] = useState([]);
 
@@ -30,7 +31,7 @@ const Index = ({ prods, cats, user }) => {
   const renderSwitch = (field) => {
     switch (field) {
       case "users":
-        return <UserList users={user} />;
+        return <UserList users={users} />;
       case "orders":
         return <OrderList />;
       case "categories":
@@ -61,7 +62,19 @@ const Index = ({ prods, cats, user }) => {
         " active scale-y-100 translate-x-0"
       );
   };
+  console.log(isAdmin);
 
+  if (isAdmin) {
+    return (
+      <div className="grid place-content-center bg-medi-700 h-screen">
+        <div className="text-medi-300 text-6xl">
+          <Link href="/">
+            <a> You are not authorized to view this page.</a>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div>
@@ -134,6 +147,6 @@ export async function getServerSideProps() {
     return cat;
   });
 
-  return { props: { prods: prods, cats: cats, user: users } };
+  return { props: { prods: prods, cats: cats, users: users } };
   // return { props: { prods: prods } };
 }
